@@ -1,0 +1,29 @@
+.categories {
+  overflow: auto; }
+  @media all and (max-width: 960px) {
+    .categories {
+      max-width: 100%; } }
+  .categories ul {
+    display: flex;
+    gap: 5px 10px;
+    overflow: auto; }
+    @media all and (max-width: 960px) {
+      .categories ul {
+        max-width: 100%;
+        flex-wrap: nowrap; } }
+    .categories ul li {
+      background-color: #f9f9f9;
+      padding: 13px 30px;
+      border-radius: 30px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.1s ease-in-out; }
+      .categories ul li:hover {
+        background-color: #f4f4f4; }
+      .categories ul li:active {
+        background-color: #ececec; }
+      .categories ul li[class="active"] {
+        background-color: #282828;
+        color: #fff; }
+
+/*# sourceMappingURL=Categories.module.css.map */

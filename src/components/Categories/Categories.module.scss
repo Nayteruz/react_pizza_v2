@@ -1,4 +1,4 @@
-@import '../variables';
+@import '../../scss/variables';
 
 .categories {
     overflow: auto;
@@ -24,7 +24,6 @@
             font-weight: bold;
             cursor: pointer;
             transition: background-color 0.1s ease-in-out;
-            @include noselect();
 
             &:hover {
                 background-color: darken(#f9f9f9, 2%);
@@ -34,7 +33,7 @@
                 background-color: darken(#f9f9f9, 5%);
             }
 
-            &.active {
+            &[class="active"] {
                 background-color: #282828;
                 color: #fff;
             }

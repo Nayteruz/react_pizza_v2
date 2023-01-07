@@ -43,7 +43,11 @@ a {
   .header .container {
     display: flex;
     align-items: center;
-    justify-content: space-between; }
+    justify-content: space-between;
+    gap: 10px 40px; }
+    @media all and (max-width: 960px) {
+      .header .container {
+        flex-wrap: wrap; } }
     @media all and (max-width: 640px) {
       .header .container {
         flex-direction: column;
@@ -174,45 +178,6 @@ a {
       font-weight: 600;
       font-size: 16px; }
 
-.categories {
-  overflow: auto; }
-  @media all and (max-width: 960px) {
-    .categories {
-      max-width: 100%; } }
-  .categories ul {
-    display: flex;
-    gap: 5px 10px;
-    overflow: auto; }
-    @media all and (max-width: 960px) {
-      .categories ul {
-        max-width: 100%;
-        flex-wrap: nowrap; } }
-    .categories ul li {
-      background-color: #f9f9f9;
-      padding: 13px 30px;
-      border-radius: 30px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background-color 0.1s ease-in-out;
-      -webkit-touch-callout: none;
-      /* iOS Safari */
-      -webkit-user-select: none;
-      /* Safari */
-      -moz-user-select: none;
-      /* Old versions of Firefox */
-      -ms-user-select: none;
-      /* Internet Explorer/Edge */
-      user-select: none;
-      /* Non-prefixed version, currently
-                 supported by Chrome, Opera and Firefox */ }
-      .categories ul li:hover {
-        background-color: #f4f4f4; }
-      .categories ul li:active {
-        background-color: #ececec; }
-      .categories ul li.active {
-        background-color: #282828;
-        color: #fff; }
-
 .sort {
   position: relative; }
   .sort__label {
@@ -236,8 +201,7 @@ a {
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.09);
     border-radius: 10px;
     overflow: hidden;
-    padding: 10px 0;
-    width: 160px; }
+    padding: 10px 0; }
     .sort__popup ul {
       overflow: hidden; }
       .sort__popup ul li {
@@ -490,7 +454,6 @@ body {
         border-color: #dddddd; }
         .cart__bottom-buttons .go-back-btn span {
           color: #c3c3c3;
-          font-weight: 500;
           font-weight: 600; }
         .cart__bottom-buttons .go-back-btn:hover {
           background-color: #111111;

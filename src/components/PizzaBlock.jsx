@@ -1,11 +1,42 @@
 import React from "react";
 import PlusIcon from "./icons/PlusIcon";
+import {useDispatch, useSelector} from "react-redux";
+import {addItem} from "../store/slices/cartSlice";
+import isEqualProduct from "../utils/isEqualProduct";
 
 const PizzaBlock = (props) => {
 	const {title, price, imageUrl, sizes, types} = props;
 	const [activeSize, setActiveSize] = React.useState(0);
 	const [activeType, setActiveType] = React.useState(0);
-	const typeNames = ['тонкое', 'традиционное']
+	const [cartItemCount, setCartItemCount] = React.useState(0);
+
+	const typeNames = ['тонкое', 'традиционное'];
+
+	const cartItem = useSelector(state => state.cart.items.filter(i => isEqualProduct(
+		{imageUrl, title, price, size: sizes[activeSize], type: typeNames[activeType]}, i
+	)))[0];
+
+	const dispatch = useDispatch();
+
+	const handleAddItem = () => {
+		const product = {
+			imageUrl,
+			title,
+			price,
+			size: sizes[activeSize],
+			type: typeNames[activeType],
+			count: 1,
+		}
+		dispatch(addItem(product))
+	}
+
+	React.useEffect(() => {
+		if (cartItem) {
+			setCartItemCount(cartItem.count);
+		} else {
+			setCartItemCount(0);
+		}
+	}, [cartItem]);
 
 	return (
 		<div className="pizza-block">
@@ -42,10 +73,10 @@ const PizzaBlock = (props) => {
 			</div>
 			<div className="pizza-block__bottom">
 				<div className="pizza-block__price">от {price} ₽</div>
-				<button className="button button--outline button--add">
+				<button className="button button--outline button--add" onClick={handleAddItem}>
 					<PlusIcon/>
 					<span>Добавить</span>
-					<i>0</i>
+					<i>{cartItemCount}</i>
 				</button>
 			</div>
 		</div>

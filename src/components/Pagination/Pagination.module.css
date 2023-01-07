@@ -1,0 +1,24 @@
+.root {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0;
+  margin: 20px 0 0; }
+  .root li {
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ddd;
+    color: #333;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    user-select: none; }
+    .root li[class="active"] {
+      background: #333;
+      color: #fff; }
+
+/*# sourceMappingURL=Pagination.module.css.map */
