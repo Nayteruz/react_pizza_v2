@@ -5,17 +5,22 @@ import CartBackArrow from "../components/icons/CartBackArrow";
 import {Link} from "react-router-dom";
 import PizzaBlockCart from "../components/PizzaBlockCart";
 import {useDispatch, useSelector} from "react-redux";
-import {clearItems} from "../store/slices/cartSlice";
+import {cartSelector, clearItems} from "../store/slices/cartSlice";
+import CartEmpty from "./Cart_empty";
 
 const Cart = () => {
 
 	const dispatch = useDispatch();
-	const {items, totalPrice, totalCount} = useSelector(state => state.cart);
+	const {items, totalPrice, totalCount} = useSelector(cartSelector);
 
 	const clearCart = () => {
 		if (window.confirm('Очистить корзину?')){
 			dispatch(clearItems());
 		}
+	}
+
+	if (!totalCount) {
+		return <CartEmpty/>
 	}
 
 	return (

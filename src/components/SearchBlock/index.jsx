@@ -1,24 +1,32 @@
 import styles from "./SearchBlock.module.scss";
-import {useSearchContext} from "../../App";
 import {useCallback, useRef, useState} from "react";
 import debounce from "../../utils/debounce";
+import {useDispatch, useSelector} from "react-redux";
+import {setSearchValue} from "../../store/slices/filterSlice";
 
 const Index = () => {
 
-	const {query, setQuery} = useSearchContext();
-	const [value, setValue] = useState(query);
+	const dispatch = useDispatch();
+	const searchValue = useSelector(state => state.filter.searchValue)
+	const [value, setValue] = useState(searchValue);
 	const sRef = useRef(null);
+
+	//const debounced = useDebounce(query);
+
+	// useEffect(() => {
+	// 	setQuery(debounced)
+	// }, [debounced])
 
 	const updateSearchValue = useCallback(
 		debounce((val) => {
-			setQuery(val)
+			dispatch(setSearchValue(val))
 		}, 500),
 		[]
 	);
 
 	const clearSearch = () => {
 		setValue('');
-		setQuery('')
+		dispatch(setSearchValue(''))
 		sRef.current.focus();
 	}
 
@@ -32,11 +40,11 @@ const Index = () => {
 			<input
 				ref={sRef}
 				placeholder="Найти пиццу"
-				value={value.toString()}
+				value={value}
 				onChange={e=>changeInput(e.target.value)}
 				type="text"
 			/>
-			{query.length > 0
+			{searchValue.length > 0
 				&& <button
 					className={styles.clear}
 					onClick={clearSearch}

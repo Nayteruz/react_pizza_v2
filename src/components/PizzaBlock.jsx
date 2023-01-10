@@ -1,8 +1,7 @@
 import React from "react";
 import PlusIcon from "./icons/PlusIcon";
 import {useDispatch, useSelector} from "react-redux";
-import {addItem} from "../store/slices/cartSlice";
-import isEqualProduct from "../utils/isEqualProduct";
+import {addItem, selectorCartItem} from "../store/slices/cartSlice";
 
 const PizzaBlock = (props) => {
 	const {title, price, imageUrl, sizes, types} = props;
@@ -12,9 +11,9 @@ const PizzaBlock = (props) => {
 
 	const typeNames = ['тонкое', 'традиционное'];
 
-	const cartItem = useSelector(state => state.cart.items.filter(i => isEqualProduct(
-		{imageUrl, title, price, size: sizes[activeSize], type: typeNames[activeType]}, i
-	)))[0];
+	const [cartItem] = useSelector(selectorCartItem(
+		{imageUrl, title, price, size: sizes[activeSize], type: typeNames[activeType]}
+	))
 
 	const dispatch = useDispatch();
 

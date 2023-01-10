@@ -1,46 +1,38 @@
-import React, {useRef} from 'react';
+import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {useSearchParams} from "react-router-dom";
 import Categories from "../components/Categories";
 import Sort from "../components/Sort";
 import PizzaSkeleton from "../components/PizzaSkeleton";
 import PizzaBlock from "../components/PizzaBlock";
-import axios from "../utils/axiosInstance";
 import Pagination from "../components/Pagination";
-import {useSearchContext} from "../App";
-import {setFields} from "../store/slices/filterSlice";
+import {selectorFilter, setFields} from "../store/slices/filterSlice";
+import {fetchPizzas, selectorPizza} from "../store/slices/pizzaSlice";
 
 const Home = () => {
+
+	const { items, total, loading, error } = useSelector(selectorPizza);
+	const {categoryId, sort, page, limit, listSort, searchValue} = useSelector(selectorFilter);
 	const [searchParams, setSearchParams] = useSearchParams();
-	const {query} = useSearchContext();
 	const dispatch = useDispatch();
-	const isSearch = useRef(false);
-	const isMounted = useRef(false);
+	const isSearch = React.useRef(false);
+	const isMounted = React.useRef(false);
 
-	const {categoryId, sort, page, limit, listSort} = useSelector(state => state.filter);
-
-	const [items, setItems] = React.useState([]);
-	const [total, setTotal] = React.useState(0);
-	const [isLoading, setIsLoading] = React.useState(false);
-
-	const fetchPizzas = () => {
-		setIsLoading(true);
+	const getPizzas = async () => {
 		const params = {
 			category: !categoryId ? null : categoryId,
 			sortBy: sort?.sortProperty,
 			order: sort?.order,
-			title: query.length < 3 ? '' : query,
+			title: searchValue.length < 3 ? null : searchValue,
 			page: page,
 			limit: limit,
 		};
-		axios.get('/items', {params})
-			.then(res => {
-				setItems(res.data.items);
-				setTotal(res.data.count);
-			})
-			.finally(() => {
-				setIsLoading(false);
-			})
+		try {
+			dispatch(fetchPizzas(params));
+		} catch (err) {
+			console.warn('Ошибка ' + err.message)
+			alert('Ошибка при получении данных!')
+		}
 	}
 
 	React.useEffect(() => {
@@ -53,7 +45,7 @@ const Home = () => {
 			setSearchParams(paramsQuery)
 		}
 		isMounted.current = true;
-	}, [categoryId, sort, query, page, limit])
+	}, [categoryId, sort, searchValue, page, limit, setSearchParams])
 
 	React.useEffect(() => {
 		if (window.location.search) {
@@ -67,18 +59,29 @@ const Home = () => {
 			}))
 			isSearch.current = true;
 		}
+		// eslint-disable-next-line
 	}, [])
 
 	React.useEffect(() => {
 		window.scrollTo(0, 0);
 		if (!isSearch.current){
-			fetchPizzas();
+			getPizzas();
 		}
 		isSearch.current = false;
-	}, [categoryId, sort, query, page, limit])
+		// eslint-disable-next-line
+	}, [categoryId, sort, searchValue, page, limit])
 
 	const pizzas = items.map(item => <PizzaBlock key={item.id} {...item} />);
 	const skeleton = [...Array(12).keys()].map(key => <PizzaSkeleton key={key}/>);
+
+	if (error){
+		return <h2>Ошибка {error}</h2>
+	}
+
+	if (!loading && pizzas.length === 0){
+		return <h2>Пицц нет</h2>
+	}
+
 
 	return (
 		<>
@@ -88,7 +91,7 @@ const Home = () => {
 			</div>
 			<h2 className="content__title">Все пиццы</h2>
 			<div className="content__items">
-				{isLoading ? skeleton : pizzas}
+				{loading ? skeleton : pizzas}
 			</div>
 			<Pagination count={total} limit={limit}/>
 		</>

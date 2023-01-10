@@ -4,12 +4,13 @@ import {useNavigate} from "react-router-dom";
 import SearchBlock from "./SearchBlock";
 import {useDispatch, useSelector} from "react-redux";
 import {setFieldsDefault} from "../store/slices/filterSlice";
+import {cartSelector} from "../store/slices/cartSlice";
 
 function Header() {
 
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const {totalCount, totalPrice} = useSelector(state => state.cart);
+	const {totalCount, totalPrice} = useSelector(cartSelector);
 
 	const navigateTo = (e, url) => {
 		e.preventDefault();

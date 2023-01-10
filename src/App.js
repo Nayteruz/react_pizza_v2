@@ -9,29 +9,20 @@ import Cart from "./pages/Cart";
 
 //mockapi mail doyeje9176@kaftee.com pass 19sunlight5s
 
-const SearchContext = React.createContext('');
-export const useSearchContext = () => {
-	return React.useContext(SearchContext);
-}
-
 function App() {
-
-	const [query, setQuery] = React.useState('');
 
 	return (
 		<div className="wrapper">
-			<SearchContext.Provider value={{query, setQuery}}>
-				<Header />
-				<div className="content">
-					<div className="container">
-						<Routes>
-							<Route path="/" element={<Home />} />
-							<Route path="/cart" element={<Cart/>} />
-							<Route path="*" element={<NotFound/>} />
-						</Routes>
-					</div>
+			<Header/>
+			<div className="content">
+				<div className="container">
+					<Routes>
+						<Route path="/" element={<Home/>}/>
+						<Route path="/cart" element={<Cart/>}/>
+						<Route path="*" element={<NotFound/>}/>
+					</Routes>
 				</div>
-			</SearchContext.Provider>
+			</div>
 		</div>
 	);
 }

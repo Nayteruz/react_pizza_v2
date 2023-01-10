@@ -62,6 +62,10 @@ const cartSlice = createSlice({
 	}
 })
 
+export const cartSelector = state => state.cart;
+
+export const selectorCartItem = (sortData) => state => state.cart.items.filter(i => isEqualProduct(sortData, i))
+
 export const {addItem, removeItem, clearItems, plusItemCount, minusItemCount} = cartSlice.actions;
 
 export default cartSlice.reducer;

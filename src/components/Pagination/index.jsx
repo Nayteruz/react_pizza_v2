@@ -1,14 +1,14 @@
 import React from 'react';
 import styles from "./Pagination.module.scss"
 import {useDispatch, useSelector} from "react-redux";
-import {setPage} from "../../store/slices/filterSlice";
+import {selectorFilter, setPage} from "../../store/slices/filterSlice";
 
 const Index = (props) => {
 
 	const dispatch = useDispatch();
 	const {count} = props;
 
-	const {page, limit} = useSelector(state => state.filter);
+	const {page, limit} = useSelector(selectorFilter);
 
 	const list = [...Array(Math.ceil(count/limit)).keys()];
 

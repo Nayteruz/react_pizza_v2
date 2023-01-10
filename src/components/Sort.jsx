@@ -1,14 +1,13 @@
 import {useEffect, useRef, useState} from "react";
 import ArrowTopIcon from "./icons/ArrowTopIcon";
 import {useDispatch, useSelector} from "react-redux";
-import {setSort} from "../store/slices/filterSlice";
+import {selectorFilter, setSort} from "../store/slices/filterSlice";
 
 function Sort() {
 
 	const dispatch = useDispatch();
 
-	const sort = useSelector(state => state.filter.sort);
-	const sortList = useSelector(state => state.filter.listSort)
+	const {sort, listSort} = useSelector(selectorFilter);
 	const [open, setOpen] = useState(false);
 	const sortName = sort?.name;
 	const sortRef = useRef(null);
@@ -40,7 +39,7 @@ function Sort() {
 			</div>
 			{open && (<div className="sort__popup">
 				<ul>
-					{sortList.map((item) =>
+					{listSort.map((item) =>
 						<li key={item.id} onClick={() => selectSort(item)} className={sort.id === item.id ? 'active' : ''}>{item.name}</li>
 					)}
 				</ul>
