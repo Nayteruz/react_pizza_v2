@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { FC } from "react";
 import NotFoundBLock from "../components/NotFoundBLock";
 import {useNavigate} from "react-router-dom";
 
-const NotFound = () => {
+const NotFound: FC = () => {
 
 	const navigate = useNavigate();
 

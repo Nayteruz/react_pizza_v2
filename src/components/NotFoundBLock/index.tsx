@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { FC } from "react";
 import styles from "./NotFoundBlock.module.scss";
-const Index = () => {
+const Index: FC = () => {
 	return (
 		<div>
 			<h1 className={styles.root}>

@@ -2,17 +2,18 @@ import logoSvg from "../assets/img/pizza-logo.svg"
 import CartIcon from "./icons/CartIcon";
 import {useNavigate} from "react-router-dom";
 import SearchBlock from "./SearchBlock";
-import {useDispatch, useSelector} from "react-redux";
 import {setFieldsDefault} from "../store/slices/filterSlice";
 import {cartSelector} from "../store/slices/cartSlice";
+import React from "react";
+import { useAppDispatch, useAppSelector } from "../hooks/useStoreHooks";
 
 function Header() {
 
 	const navigate = useNavigate();
-	const dispatch = useDispatch();
-	const {totalCount, totalPrice} = useSelector(cartSelector);
+	const dispatch = useAppDispatch();
+	const {totalCount, totalPrice} = useAppSelector(cartSelector);
 
-	const navigateTo = (e, url) => {
+	const navigateTo = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, url: string) => {
 		e.preventDefault();
 		navigate(url);
 		dispatch(setFieldsDefault());
@@ -30,7 +31,7 @@ function Header() {
 				</a>
 				<SearchBlock/>
 				<div className="header__cart">
-					<a href="/cart" onClick={(e) => navigateTo(e, '/cart')} className="button button--cart">
+					<a href="/Cart.tsx" onClick={(e) => navigateTo(e, '/cart')} className="button button--cart">
 						<span>{totalPrice} ₽</span>
 						<div className="button__delimiter"></div>
 						<CartIcon/>

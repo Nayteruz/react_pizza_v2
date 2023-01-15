@@ -1,38 +1,32 @@
+import { ChangeEvent, FC, useCallback, useRef, useState } from "react";
 import styles from "./SearchBlock.module.scss";
-import {useCallback, useRef, useState} from "react";
 import debounce from "../../utils/debounce";
-import {useDispatch, useSelector} from "react-redux";
 import {setSearchValue} from "../../store/slices/filterSlice";
+import { useAppDispatch, useAppSelector } from "../../hooks/useStoreHooks";
 
-const Index = () => {
+const Index: FC = () => {
 
-	const dispatch = useDispatch();
-	const searchValue = useSelector(state => state.filter.searchValue)
+	const dispatch = useAppDispatch();
+	const searchValue = useAppSelector(state => state.filter.searchValue)
 	const [value, setValue] = useState(searchValue);
-	const sRef = useRef(null);
-
-	//const debounced = useDebounce(query);
-
-	// useEffect(() => {
-	// 	setQuery(debounced)
-	// }, [debounced])
+	const sRef = useRef<HTMLInputElement>(null);
 
 	const updateSearchValue = useCallback(
-		debounce((val) => {
-			dispatch(setSearchValue(val))
-		}, 500),
-		[]
+		debounce((val: string) => {dispatch(setSearchValue(val))},500), [dispatch]
 	);
+
 
 	const clearSearch = () => {
 		setValue('');
 		dispatch(setSearchValue(''))
-		sRef.current.focus();
+		if (sRef.current){
+			sRef.current.focus();
+		}
 	}
 
-	const changeInput = (val) => {
-		setValue(val);
-		updateSearchValue(val)
+	const changeInput = (event: ChangeEvent<HTMLInputElement>) => {
+		setValue(event.target.value);
+		updateSearchValue(event.target.value)
 	}
 
 	return (
@@ -41,7 +35,7 @@ const Index = () => {
 				ref={sRef}
 				placeholder="Найти пиццу"
 				value={value}
-				onChange={e=>changeInput(e.target.value)}
+				onChange={changeInput}
 				type="text"
 			/>
 			{searchValue.length > 0
